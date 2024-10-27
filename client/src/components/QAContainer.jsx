@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Paper, InputBase, IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Message from "./Message"
-const ChatContainer = () => {
+
+const QAContainer = () => {
   const messageListRef = useRef(null);
   const [chatHistory, setChatHistory] = useState([
     {
@@ -39,7 +40,7 @@ const ChatContainer = () => {
   return (
     <div
       style={{
-        width: "56%",
+        width: "100%",
         height: "750px",
         border: "1px solid black",
         borderRadius: "1%",
@@ -89,4 +90,4 @@ const ChatContainer = () => {
   );
 };
 
-export default ChatContainer;
+export default QAContainer;

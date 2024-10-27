@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Chip } from "@mui/material";
-import FaceIcon from "@mui/icons-material/Face";
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const Message = (props) => {
   const { text, type } = props;
@@ -21,9 +21,11 @@ const Message = (props) => {
               display: "block",
               whiteSpace: "normal",
             },
+            fontSize: "16px",
+            ...(type=="question" && {background: 'linear-gradient(to left, #3a7bd5, #3a6073)'})
           }}
           color={type === "answer" ? "default" : "primary"}
-          icon={type === "answer" ? <FaceIcon /> : null}
+          icon={type === "answer" ? <DescriptionIcon /> : null}
           label={text}
         />
       </Box>
