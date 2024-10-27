@@ -3,7 +3,7 @@ import {Button, Alert} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CheckIcon from '@mui/icons-material/Check';
-
+import {buildChain} from "../services/services.js";
 
 const FileInput = () => {
     const [fileUploaded, setFileUploaded] = useState(false);
@@ -20,12 +20,15 @@ const FileInput = () => {
         width: 1,
      });
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
+        const file = event.target.files[0];
         try{
-            if(event.target.files[0]){
+            if(file){
                 setFileUploaded(true);
-                setFileName(event.target.files[0].name);
+                setFileName(file.name);
+                let fileProcessed = await buildChain(file);
+                if(!fileProcessed) alert('try uploading the file again')
             }
         }
         catch (exception) {
@@ -54,6 +57,7 @@ const FileInput = () => {
                 type="file"
                 accept="application/pdf"
                 onChange={event => onSubmit(event)}
+                style={{ display: 'none' }}
             />
         </Button>
         {fileUploaded &&

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Paper, InputBase, IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Message from "./Message"
+import {getAnswer} from "../services/services.js";
 
 const QAContainer = () => {
   const messageListRef = useRef(null);
@@ -11,7 +12,7 @@ const QAContainer = () => {
       content: "Hey! Ask me a question about the PDF file.",
     },
   ]);
-  const [newMessage, setNewMessage] = useState("");
+  const [question, setQuestion] = useState("");
 
   useEffect(() => {
     messageListRef.current?.lastElementChild?.scrollIntoView();
@@ -20,18 +21,16 @@ const QAContainer = () => {
   const sendMessage = async (event) => {
     event.preventDefault();
     try {
+      const answer = await getAnswer(question)
+
+      setQuestion("");
       const newChatHistory = [
         ...chatHistory,
-        { type: "question", content: `${newMessage}` },
+        { type: "question", content: `${question}` },
+        { type: "answer", content: `${answer}` },
       ];
-      setNewMessage("");
 
-      const chatCompletion = "This is the answer placeholder";
-
-      setChatHistory([
-        ...newChatHistory,
-        { type: "answer", content: `${chatCompletion}` },
-      ]);
+      setChatHistory(newChatHistory);
     } catch (err) {
       console.log("Error:", err);
     }
@@ -75,9 +74,9 @@ const QAContainer = () => {
           <InputBase
             sx={{ ml: 1, flex: 1 }}
             placeholder="Ask a question"
-            value={newMessage}
+            value={question}
             onChange={(res) => {
-              setNewMessage(res.target.value);
+              setQuestion(res.target.value);
             }}
             multiline
           />
