@@ -42,7 +42,7 @@ const QAContainer = () => {
       style={{
         width: "100%",
         height: "750px",
-        border: "1px solid black",
+        border: "1px solid gray",
         borderRadius: "1%",
         position: "relative",
       }}
