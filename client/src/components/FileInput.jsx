@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Button} from "@mui/material";
+import {Button, Alert} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import CheckIcon from '@mui/icons-material/Check';
+
 
 const FileInput = () => {
-    const [currentFile, setCurrentFile] = useState(null)
-
+    const [fileUploaded, setFileUploaded] = useState(false);
+    const [fileName, setFileName] = useState('');
     const Input = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -20,13 +22,14 @@ const FileInput = () => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        setCurrentFile(event.target.files[0]);
-        console.log(currentFile);
-
         try{
+            if(event.target.files[0]){
+                setFileUploaded(true);
+                setFileName(event.target.files[0].name);
+            }
         }
         catch (exception) {
-            console.log(exception.message);
+            console.log(exception);
         }
     }
     return <>
@@ -53,6 +56,18 @@ const FileInput = () => {
                 onChange={event => onSubmit(event)}
             />
         </Button>
+        {fileUploaded &&
+            <Alert severity="success">
+                {'PDF upload successful'}
+                <br/>
+                {fileName}
+            </Alert>
+        }
+        {!fileUploaded &&
+            <Alert severity="info">
+                No PDF chosen
+            </Alert>
+        }
     </>
 };
 export default FileInput;
